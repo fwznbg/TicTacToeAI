@@ -10,6 +10,7 @@ const choose_side = (side) => {
   }else{
     player = "O";
     computer = "X";
+    addComputerMove(false);
   }
   choose.style.visibility = "hidden";	
 }
