@@ -1,0 +1,220 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  background-color: #010101;
+  font-family: 'Open Sans', sans-serif;
+  color: #FFF;
+}
+
+.choose {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background-color: #010101;
+  width: 400px;
+  height: 150px;
+  border: 3px solid #bebebe;
+}
+
+.choose--header {
+  text-align: center;
+  padding-top: 10px;
+  height: 50px;
+  width: 400px;
+}
+
+.choose--content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: auto;
+  height: 100px;
+}
+
+.choose--x, .choose--o {
+  margin: 0;
+  padding: 0;
+  width: 50%;
+  height: auto;
+  font-weight: 1000;
+  font-size: 70px;
+  text-align: center;
+}
+
+.choose--x {
+  border-left: none;
+}
+
+.choose--o {
+  border-right: none;
+}
+
+.main {
+  margin: 0 auto;
+  height: 100vh;
+  max-width: 420px;
+  width: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.game {
+  height: 420px;
+  width: 420px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: auto auto auto;
+      grid-template-columns: auto auto auto;
+  place-items: center;
+}
+
+.blok {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 140px;
+  height: 140px;
+  font-size: 3rem;
+  font-weight: bold;
+  border: 3px solid #FFF;
+  -webkit-transition: background 0.2s ease-in-out;
+  transition: background 0.2s ease-in-out;
+}
+
+.blok:hover {
+  cursor: pointer;
+  background: #FFF;
+}
+
+#blok0, #blok1, #blok2 {
+  border-top: none;
+}
+
+#blok0, #blok3, #blok6 {
+  border-left: none;
+}
+
+#blok6, #blok7, #blok8 {
+  border-bottom: none;
+}
+
+#blok2, #blok5, #blok8 {
+  border-right: none;
+}
+
+button {
+  width: 200px;
+  height: 40px;
+  font-size: 20px;
+  border: 2px solid #bebebe;
+  background-color: #010101;
+  color: #FFF;
+  -webkit-transition: background-color 0.2s ease-in-out;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #FFF;
+  color: #010101;
+}
+
+.occupied:hover {
+  background-color: #7D0633;
+}
+
+.winner--container {
+  position: fixed;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (1fr)[12];
+      grid-template-columns: repeat(12, 1fr);
+  -ms-grid-rows: 20px auto 40px 20px;
+      grid-template-rows: 20px auto 40px 20px;
+  padding: 0;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  background-color: #010101;
+  width: 600px;
+  height: 200px;
+  border: 2px solid #bebebe;
+  font-size: 50px;
+}
+
+.winner--button {
+  -ms-grid-column: 5;
+      grid-column-start: 5;
+  grid-column-end: 8;
+  -ms-grid-row: 3;
+      grid-row-start: 3;
+  grid-row-end: 4;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 200px;
+}
+
+#hidden--button {
+  visibility: hidden;
+  margin-top: 40px;
+}
+
+h2 {
+  -ms-grid-column: 1;
+      grid-column-start: 1;
+  grid-column-end: 13;
+  -ms-grid-row: 2;
+      grid-row-start: 2;
+  grid-row-end: 3;
+  -ms-grid-column-align: center;
+      justify-self: center;
+}
+
+p {
+  -ms-grid-column: 12;
+      grid-column-start: 12;
+  grid-column-end: 13;
+  -ms-grid-row: 1;
+      grid-row-start: 1;
+  grid-row-end: 2;
+  font-size: 25px;
+  text-align: center;
+  -ms-grid-column-align: end;
+      justify-self: end;
+  width: 30px;
+  height: 30px;
+}
+
+p:hover {
+  cursor: pointer;
+  background-color: #FFF;
+  color: #010101;
+}
+/*# sourceMappingURL=style.css.map */
