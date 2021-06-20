@@ -1,5 +1,15 @@
 let player = "";
 let computer = "";
+<<<<<<< Updated upstream
+=======
+let board_full = false;
+let board = ["", "", "", "", "", "", "", "", ""];
+// let iter = 0;
+// let round = 0;  
+/*
+  Game pre-start
+*/
+>>>>>>> Stashed changes
 
 const choose = document.querySelector(".choose");
 
@@ -10,7 +20,11 @@ const choose_side = (side) => {
   }else{
     player = "O";
     computer = "X";
+<<<<<<< Updated upstream
     addComputerMove(false);
+=======
+    addComputerMove();
+>>>>>>> Stashed changes
   }
   choose.style.visibility = "hidden";	
 }
@@ -44,11 +58,20 @@ const check_line = (a, b, c) => {
 const check_match = () => {
   for (i = 0; i < 9; i += 3) {
     if (check_line(i, i + 1, i + 2)) {
+<<<<<<< Updated upstream
       return board[i];
+=======
+      let match = {};
+      match.winner = board[i];
+      if(match.winner == player) match.score = -10;
+      else if (match.winner == computer) match.score = 10;
+      return match;
+>>>>>>> Stashed changes
     }
   }
   for (i = 0; i < 3; i++) {
     if (check_line(i, i + 3, i + 6)) {
+<<<<<<< Updated upstream
       return board[i];
     }
   }
@@ -57,8 +80,33 @@ const check_match = () => {
   }
   if (check_line(2, 4, 6)) {
     return board[2];
+=======
+      let match = {};
+      match.winner = board[i];
+      if(match.winner == player) match.score = -10;
+      else if (match.winner == computer) match.score = 10;
+      return match;
+    }
   }
-  return "";
+  if (check_line(0, 4, 8)) {
+    let match = {};
+      match.winner = board[0];
+      if(match.winner == player) match.score = -10;
+      else if (match.winner == computer) match.score = 10;
+      return match;
+  }
+  if (check_line(2, 4, 6)) {
+    let match = {};
+    match.winner = board[2];
+    if(match.winner == player) match.score = -10;
+    else if (match.winner == computer) match.score = 10;
+    return match;
+>>>>>>> Stashed changes
+  }
+  return {
+    winner: "",
+    score: ""
+  };
 };
 
 const check_for_winner = () => {
@@ -136,5 +184,134 @@ const x_button = () => {
   document.getElementById("hidden--button").style.visibility = "visible";
 }
 
+<<<<<<< Updated upstream
 //initial render
+=======
+/* Game's move */
+
+const addPlayerMove = e => {
+  if (!board_full && board[e] == "" && player != "") {
+    board[e] = player;
+    game_loop();
+    addComputerMove();
+  }
+};
+
+/*
+const minimaxMove = (board, depth, isMax) => {
+  let score = check_match()["score"];
+
+  if(score == 10) return score;
+  if(score == -10) return score;
+  if(board_full) return 0;
+
+  if(isMax){
+    let bestMove = -10000;
+    for(let i = 0; i<9;i++){
+      if(board[i]==""){
+        board[i] = computer;
+        bestMove = Math.max(bestMove, minimaxMove(board, depth+1, !isMax));
+
+        board[i] = "";
+      }
+    }
+    return bestMove;
+  }else{
+    let bestMove = 100000;
+    for(let i = 0; i<9;i++){
+      if(board[i]==""){
+        board[i] = player;
+        bestMove = Math.min(bestMove, minimaxMove(board, depth+1, !isMax));
+
+        board[i] = "";
+      }
+    }
+    return bestMove;
+  }
+};
+
+const findComputerMove = (board) => {
+  let best = -100000;
+  let bestMove = -1;
+
+  for(let i = 0; i<9;i++){
+    if(board[i]==""){
+      board[i] = computer;
+      let move = minimaxMove(board, 0, false);
+      board[i] = "";
+      
+      if(move>best) {
+        bestMove = i;
+        best = move;
+      }
+    }
+  }
+  return bestMove;
+}
+*/
+
+const minimax = (newBoard, currentPlayer) => {
+  let score = check_match()["score"];
+
+  if(score == 10) return {score: 10};
+  else if(score == -10) return {score: -10};
+  else if(board_full) return {score: 0};
+
+  let moves = [];
+  for(let i=0; i<newBoard.length;i++){
+    if(newBoard[i]==""){
+      let move = {};
+      // move.index = i;
+      move.index = newBoard[i];
+      newBoard[i] = currentPlayer;
+
+      if(currentPlayer==computer){
+        let result = minimax(newBoard, player);
+        move.score = result.score;
+      }else{
+        let result = minimax(newBoard, computer);
+        move.score = result.score;
+      }
+      // newBoard[i] = "";
+      newBoard[i] = move.index;
+      moves.push(move);
+    }
+  }
+
+  let bestMove;
+  if(currentPlayer === computer){
+    let bestScore = -100000;
+    for(let i=0; i<moves.length; i++){
+      if(moves[i].score>bestScore){
+        bestScore = moves[i].score;
+        bestMove = i;
+      }
+    }
+  }else{
+    let bestScore = 100000;
+    for(let i=0; i<moves.length; i++){
+      if(moves[i].score<bestScore){
+        bestScore = moves[i].score;
+        bestMove = i;
+      }
+    }
+  }
+
+  return moves[bestMove];
+}
+
+const addComputerMove = () => {
+  if (!board_full) {
+    // do {
+    //   selected = Math.floor(Math.random() * 9);
+    // } while (board[selected] != "");
+    // board[selected] = computer;
+    let idx = minimax(board, computer).index;
+    board[idx] = computer;
+    game_loop();
+  }
+}
+
+// render
+>>>>>>> Stashed changes
 render_board();
