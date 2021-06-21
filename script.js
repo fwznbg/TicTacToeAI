@@ -1,7 +1,5 @@
 let player = "";
 let computer = "";
-<<<<<<< Updated upstream
-=======
 let board_full = false;
 let board = ["", "", "", "", "", "", "", "", ""];
 // let iter = 0;
@@ -9,7 +7,6 @@ let board = ["", "", "", "", "", "", "", "", ""];
 /*
   Game pre-start
 */
->>>>>>> Stashed changes
 
 const choose = document.querySelector(".choose");
 
@@ -20,11 +17,7 @@ const choose_side = (side) => {
   }else{
     player = "O";
     computer = "X";
-<<<<<<< Updated upstream
-    addComputerMove(false);
-=======
     addComputerMove();
->>>>>>> Stashed changes
   }
   choose.style.visibility = "hidden";	
 }
@@ -58,29 +51,15 @@ const check_line = (a, b, c) => {
 const check_match = () => {
   for (i = 0; i < 9; i += 3) {
     if (check_line(i, i + 1, i + 2)) {
-<<<<<<< Updated upstream
-      return board[i];
-=======
       let match = {};
       match.winner = board[i];
       if(match.winner == player) match.score = -10;
       else if (match.winner == computer) match.score = 10;
       return match;
->>>>>>> Stashed changes
     }
   }
   for (i = 0; i < 3; i++) {
     if (check_line(i, i + 3, i + 6)) {
-<<<<<<< Updated upstream
-      return board[i];
-    }
-  }
-  if (check_line(0, 4, 8)) {
-    return board[0];
-  }
-  if (check_line(2, 4, 6)) {
-    return board[2];
-=======
       let match = {};
       match.winner = board[i];
       if(match.winner == player) match.score = -10;
@@ -101,7 +80,6 @@ const check_match = () => {
     if(match.winner == player) match.score = -10;
     else if (match.winner == computer) match.score = 10;
     return match;
->>>>>>> Stashed changes
   }
   return {
     winner: "",
@@ -184,9 +162,6 @@ const x_button = () => {
   document.getElementById("hidden--button").style.visibility = "visible";
 }
 
-<<<<<<< Updated upstream
-//initial render
-=======
 /* Game's move */
 
 const addPlayerMove = e => {
@@ -313,5 +288,4 @@ const addComputerMove = () => {
 }
 
 // render
->>>>>>> Stashed changes
 render_board();
