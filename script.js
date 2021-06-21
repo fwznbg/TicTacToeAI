@@ -19,10 +19,7 @@ const choose_side = (side) => {
   }else{
     player = "O";
     computer = "X";
-<<<<<<< Updated upstream
-=======
     addComputerMove();
->>>>>>> Stashed changes
   }
   choose.style.visibility = "hidden";	
 }
@@ -48,41 +45,40 @@ const check_line = (a, b, c) => {
 const check_match = () => {
   for (i = 0; i < 9; i += 3) {
     if (check_line(i, i + 1, i + 2)) {
-      match = {
-        winner: board[i],
-        score: 0
-      } 
-      match["score"] = (board[i] == player) ? +10 : (board[i] == player) ? -10: 0;
+      let match = {};
+      match.winner = board[i];
+      if(match.winner == player) match.score = 10;
+      else if (match.winner == computer) match.score = -10;
       return match;
     }
   }
   for (i = 0; i < 3; i++) {
     if (check_line(i, i + 3, i + 6)) {
-      match = {
-        winner: board[i],
-        score: 0
-      } 
-      match["score"] = (board[i] == player) ? +10 : (board[i] == player) ? -10: 0;
+      let match = {};
+      match.winner = board[i];
+      if(match.winner == player) match.score = 10;
+      else if (match.winner == computer) match.score = -10;
       return match;
     }
   }
   if (check_line(0, 4, 8)) {
-    match = {
-      winner: board[0],
-      score: 0
-    } 
-    match["score"] = (board[0] == player) ? +10 : (board[0] == player) ? -10: 0;
-    return match;
+    let match = {};
+      match.winner = board[0];
+      if(match.winner == player) match.score = 10;
+      else if (match.winner == computer) match.score = -10;
+      return match;
   }
   if (check_line(2, 4, 6)) {
-    match = {
-      winner: board[2],
-      score: 0
-    } 
-    match["score"] = (board[2] == player) ? +10 : (board[2] == player) ? -10: 0;
+    let match = {};
+    match.winner = board[2];
+    if(match.winner == player) match.score = 10;
+    else if (match.winner == computer) match.score = -10;
     return match;
   }
-  return "";
+  return {
+    winner: "",
+    score: 0
+  };
 };
 
 const check_for_winner = () => {
@@ -144,7 +140,7 @@ const addPlayerMove = e => {
   }
 };
 
-const minimaxMove = (board, depth, isMax) => {
+const minimaxMove = (newBoard, depth, isMax) => {
   let score = check_match()["score"];
 
   if(score == 10) return score;
@@ -152,43 +148,43 @@ const minimaxMove = (board, depth, isMax) => {
   if(board_full) return 0;
 
   if(isMax){
-    let bestMove = -Infinity;
+    let bestMove = -1000;
     for(let i = 0; i<9;i++){
-      if(board[i]==""){
-        board[i] = player;
-        bestMove = Math.max(bestMove, minimaxMove(board, depth+1, !isMax));
+      if(newBoard[i]==""){
+        newBoard[i] = player;
+        bestMove = Math.max(bestMove, minimaxMove(newBoard, depth+1, !isMax));
 
-        board[i] = "";
+        newBoard[i] = "";
       }
     }
     return bestMove;
   }else{
-    let bestMove = Infinity;
+    let bestMove = 1000;
     for(let i = 0; i<9;i++){
-      if(board[i]==""){
-        board[i] = computer;
-        bestMove = Math.min(bestMove, minimaxMove(board, depth+1, !isMax));
+      if(newBoard[i]==""){
+        newBoard[i] = computer;
+        bestMove = Math.min(bestMove, minimaxMove(newBoard, depth+1, !isMax));
 
-        board[i] = "";
+        newBoard[i] = "";
       }
     }
     return bestMove;
   }
 };
 
-const findComputerMove = () => {
-  let best = Infinity;
+const findBestMove = (newBoard) => {
+  let bestVal = -1000;
   let bestMove = -1;
 
   for(let i = 0; i<9;i++){
-    if(board[i]==""){
-      board[i] = computer;
-      let move = minimaxMove(board, 0, false);
-      board[i] = "";
+    if(newBoard[i]==""){
+      newBoard[i] = player;
+      let moveVal = minimaxMove(newBoard, 0, false);
+      newBoard[i] = "";
       
-      if(move<best) {
+      if(moveVal>bestVal) {
         bestMove = i;
-        best = move;
+        bestVal = moveVal;
       }
     }
   }
@@ -200,7 +196,7 @@ const addComputerMove = () => {
     // do {
     //   selected = Math.floor(Math.random() * 9);
     // } while (board[selected] != "");
-    board[findComputerMove()] = computer;
+    board[findComputerMove(board)] = computer;
     game_loop();
   }
 }
