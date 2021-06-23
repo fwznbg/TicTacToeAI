@@ -159,7 +159,7 @@ button {
 }
 
 #hidden--button {
-  // visibility: hidden;
+  visibility: hidden;
   margin-top: 2rem;
 }
 
@@ -234,5 +234,8 @@ p {
       height: 7rem;
       font-size: 1.5rem;
     }
+  }
+  #winner{
+      font-size: 1.5rem;
   }
 }

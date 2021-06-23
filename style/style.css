@@ -183,6 +183,7 @@ button:hover {
 }
 
 #hidden--button {
+  visibility: hidden;
   margin-top: 2rem;
 }
 
@@ -259,6 +260,9 @@ p:hover {
         grid-template-rows: 1rem auto 2rem 1rem;
     width: 15rem;
     height: 7rem;
+    font-size: 1.5rem;
+  }
+  #winner {
     font-size: 1.5rem;
   }
 }
