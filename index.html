@@ -12,8 +12,8 @@
     <div class="choose">
         <h1 class="choose--header">Choose Side</h1>
         <div class="choose--content">
-            <button class="choose--x" onclick="choose_side('X')">X</button>
-            <button class="choose--o" onclick="choose_side('O')">O</button>
+            <button class="choose--x">X</button>
+            <button class="choose--o">O</button>
         </div>
     </div>
 
@@ -32,12 +32,12 @@
       </div>
       <div class="winner--container">
           <p onclick="x_button()">x</p>
-        <h2 id="winner">Computer Win!</h2>
+        <h2 id="winner"></h2>
         <div class="winner--button">
-            <button onclick="reset_board()">Reset</button>
+            <button>Reset</button>
         </div>
       </div>
-      <button id="hidden--button" onclick="reset_board()">Reset</button>
+      <button id="hidden--button">Reset</button>
     </div>
 
     <script src="script.js"></script>

@@ -1,86 +1,21 @@
-let player = "";
-let computer = "";
+let humanPlayer = "";
+let aiPlayer = "";
+let gameBoard = ["", "", "", "", "", "", "", "", ""];
+let isFull = false; // is the board full
 
 const choose = document.querySelector(".choose");
-
-const choose_side = (side) => {
-  if(side == "X"){
-    player = "X";
-    computer = "O";
-  }else{
-    player = "O";
-    computer = "X";
-    addComputerMove(false);
-  }
-  choose.style.visibility = "hidden";	
-}
-
-
-let board_full = false;
-let board = ["", "", "", "", "", "", "", "", ""];
-
 const game = document.querySelector(".game");
-
 const winner_statement = document.querySelector(".winner--container");
+const winner = document.querySelector("#winner");
+const chooseX = document.querySelector(".choose--x");
+const chooseO = document.querySelector(".choose--o");
+const resetButton = document.querySelector("#hidden--button");
+const winnerReset = document.querySelector(".winner--button");
 
-check_board_complete = () => {
-  let flag = true;
-  board.forEach(element => {
-    if (element != player && element != computer) {
-      flag = false;
-    }
-  });
-  board_full = flag;
-};
-
-const check_line = (a, b, c) => {
-  return (
-    board[a] == board[b] &&
-    board[b] == board[c] &&
-    (board[a] == player || board[a] == computer)
-  );
-};
-
-const check_match = () => {
-  for (i = 0; i < 9; i += 3) {
-    if (check_line(i, i + 1, i + 2)) {
-      return board[i];
-    }
-  }
-  for (i = 0; i < 3; i++) {
-    if (check_line(i, i + 3, i + 6)) {
-      return board[i];
-    }
-  }
-  if (check_line(0, 4, 8)) {
-    return board[0];
-  }
-  if (check_line(2, 4, 6)) {
-    return board[2];
-  }
-  return "";
-};
-
-const check_for_winner = () => {
-  let res = check_match()
-  if (res == player) {
-    winner.innerText = "You Win!";
-    board_full = true
-    winner_statement.style.visibility = "visible";
-  } else if (res == computer) {
-    winner.innerText = "Computer Win!";
-    board_full = true
-    winner_statement.style.visibility = "visible";
-  } else if (board_full) {
-    winner.innerText = "Draw!";
-    winner_statement.style.visibility = "visible";
-  }
-};
-
-const render_board = () => {
+const render_board = (board) => {
   game.innerHTML = ""
   board.forEach((e, i) => {
-    game.innerHTML += `<div id="blok${i}" class="blok" onclick="addPlayerMove(${i})">${board[i]}</div>`
+    game.innerHTML += `<div id="blok${i}" class="blok" onclick="humanMove(${i})">${board[i]}</div>`
     if (e == "X" || e == "O") {
       document.querySelector(`#blok${i}`).classList.add("occupied");
     }
@@ -88,53 +23,164 @@ const render_board = () => {
   winner_statement.style.visibility = "hidden";
 };
 
-const game_loop = () => {
-  render_board();
-  check_board_complete();
-  check_for_winner();
-}
+const isBoardFull = (board) => {
+  let flag = true;
+  board.forEach(element => {
+    if (element != humanPlayer && element != aiPlayer) {
+      flag = false;
+    }
+  });
+  isFull = flag;
+  return isFull;
+};
 
-const addPlayerMove = e => {
-  if (!board_full && board[e] == "" && player != "") {
-    board[e] = player;
-    game_loop();
-    addComputerMove(false);
+const checkLine = (board, a, b, c) => {
+  return (
+    board[a] == board[b] &&
+    board[b] == board[c] &&
+    (board[a] == humanPlayer || board[a] == aiPlayer)
+  );
+};
+
+const checkWinner = (board) => {
+  for (i = 0; i < 9; i += 3) {
+    if (checkLine(board, i, i + 1, i + 2)) {
+      return board[i];
+    }
+  }
+  for (i = 0; i < 3; i++) {
+    if (checkLine(board, i, i + 3, i + 6)) {
+      return board[i];
+    }
+  }
+  if (checkLine(board, 0, 4, 8)) {
+    return board[0];
+  }
+  if (checkLine(board, 2, 4, 6)) {
+    return board[2];
+  }
+  if(isBoardFull(board)){ //draw
+    return 0;
+  }
+  return "";
+};
+
+const checkFinalState = (board) => {
+  let res = checkWinner(board);
+  if (res == humanPlayer) {
+    winner.innerText = "You Win!";
+    isFull = true
+    winner_statement.style.visibility = "visible";
+  } else if (res == aiPlayer) {
+    winner.innerText = "Computer Win!";
+    isFull = true
+    winner_statement.style.visibility = "visible";
+  } else if (isBoardFull(board)) {
+    winner.innerText = "Draw!";
+    winner_statement.style.visibility = "visible";
   }
 };
 
-const addComputerMove = (isSmart) => {
-  isSmart? SmartMove() : RandomMove();
-};
 
-const RandomMove = () => {
-  if (!board_full) {
-    do {
-      selected = Math.floor(Math.random() * 9);
-    } while (board[selected] != "");
-    board[selected] = computer;
-    game_loop();
-  }
-}
-
-const SmartMove = () => {
-
-}
-
-const reset_board = () => {
-  player = "";
-  computer = "";
-  board = ["", "", "", "", "", "", "", "", ""];
-  board_full = false;
+const resetBoard = () => {
+  humanPlayer = "";
+  aiPlayer = "";
+  gameBoard = ["", "", "", "", "", "", "", "", ""];
+  isFull = false;
   winner.innerText = "";
-  render_board();
+  render_board(gameBoard);
   choose.style.visibility = "visible";
   document.getElementById("hidden--button").style.visibility = "hidden";
 };
+
+resetButton.addEventListener("click", resetBoard);
+winnerReset.addEventListener("click", resetBoard);
 
 const x_button = () => {
   winner_statement.style.visibility = 'hidden';
   document.getElementById("hidden--button").style.visibility = "visible";
 }
 
-//initial render
-render_board();
+const game_loop = (board) => {
+  render_board(board);
+  isBoardFull(board);
+  checkFinalState(board);
+}
+
+const minimax = (board, depth, isMax) => {
+  let winner = checkWinner(board);
+  if (winner !== "") {
+    if(winner == aiPlayer) return 10-depth;
+    else if (winner == humanPlayer) return depth-10;
+    return 0;
+  }
+
+  if (isMax) {
+    let bestScore = -Infinity;
+    for (let i = 0; i < 9; i++) {
+      if (board[i] == "") {
+        board[i] = aiPlayer;
+        let score = minimax(board, depth + 1, !isMax);
+        board[i] = "";
+        bestScore = Math.max(score, bestScore);
+      }
+    }
+    return bestScore;
+  } else {
+    let bestScore = Infinity;
+    for (let i = 0; i < 9; i++) {
+      if (board[i] == "") {
+        board[i] = humanPlayer;
+        let score = minimax(board, depth + 1, isMax);
+        board[i] = "";
+        bestScore = Math.min(score, bestScore);
+      }
+    }
+    return bestScore;
+  }
+}
+
+
+const humanMove = (e) => {
+  if (!isFull && gameBoard[e] == "" && humanPlayer != "") {
+    gameBoard[e] = humanPlayer;
+    game_loop(gameBoard);
+    aiMove();
+  }
+};
+
+const aiMove = () => {
+  let bestScore = -Infinity;
+  let move;
+  for (let i = 0; i < 9; i++) {
+    if (gameBoard[i] == "") {
+      gameBoard[i] = aiPlayer;
+      let score = minimax(gameBoard, 0, false);
+      gameBoard[i] = "";
+      if (score > bestScore) {
+        bestScore = score;
+        move = i;
+      }
+    }
+  }
+  gameBoard[move] = aiPlayer;
+  game_loop(gameBoard);
+}
+
+
+chooseX.addEventListener("click", function(){
+  humanPlayer = "X";
+  aiPlayer = "O";
+  choose.style.visibility = "hidden";
+});
+
+chooseO.addEventListener("click", function(){
+  humanPlayer = "O";
+  aiPlayer = "X";
+  choose.style.visibility = "hidden";
+  aiMove();
+});
+    
+
+// render
+render_board(gameBoard);
