@@ -2,7 +2,6 @@ let humanPlayer = "";
 let aiPlayer = "";
 let isFull = false;
 let gameBoard = ["", "", "", "", "", "", "", "", ""];
-// let gameBoard = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 /*
   Game pre-start
 */
@@ -23,7 +22,8 @@ const check_board_complete = (board) => {
       flag = false;
     }
   });
-   isFull = flag;
+  isFull = flag;
+  return isFull;
 };
 
 const check_line = (board, a, b, c) => {
@@ -64,8 +64,14 @@ const check_match = (board) => {
     let match = {};
     match.winner = board[2];
     if(match.winner == humanPlayer) match.score = -10;
-    else if (match.winner == ai) match.score = 10;
+    else if (match.winner == aiPlayer) match.score = 10;
     return match;
+  }
+  if(check_board_complete(board)){
+    return {
+      winner:"",
+      score: 0
+    }
   }
   return {
     winner: "",
@@ -83,7 +89,7 @@ const check_for_winner = (board) => {
     winner.innerText = "Computer Win!";
     isFull = true
     winner_statement.style.visibility = "visible";
-  } else if (isFull) {
+  } else if (check_board_complete(board)) {
     winner.innerText = "Draw!";
     winner_statement.style.visibility = "visible";
   }
@@ -92,11 +98,6 @@ const check_for_winner = (board) => {
 const render_board = (board) => {
   game.innerHTML = ""
   board.forEach((e, i) => {
-    // if(typeof(board[i]=="number")){
-    //   game.innerHTML += `<div id="blok${i}" class="blok" onclick="humanMove(${i})"></div>`
-    // }else{
-    //   game.innerHTML += `<div id="blok${i}" class="blok" onclick="humanMove(${i})">${board[i]}</div>`
-    // }
     game.innerHTML += `<div id="blok${i}" class="blok" onclick="humanMove(${i})">${board[i]}</div>`
     if (e == "X" || e == "O") {
       document.querySelector(`#blok${i}`).classList.add("occupied");
@@ -111,21 +112,10 @@ const game_loop = (board) => {
   check_for_winner(board);
 }
 
-// const RandomMove = () => {
-//   if (!board_full) {
-//     do {
-//       selected = Math.floor(Math.random() * 9);
-//     } while (board[selected] != "");
-//     board[selected] = computer;
-//     game_loop(board);
-//   }
-// }
-
 const reset_board = (board) => {
   humanPlayer = "";
   aiPlayer = "";
   gameBoard = ["", "", "", "", "", "", "", "", ""];
-  // gameBoard = [0, 1, 2, 3, 4, 5, 6, 7, 8];
   isFull = false;
   winner.innerText = "";
   render_board(board);
@@ -155,128 +145,66 @@ winnerReset.addEventListener("click", function(){
   document.getElementById("hidden--button").style.visibility = "hidden";
 });
 
-
-
-
 const x_button = () => {
   winner_statement.style.visibility = 'hidden';
   document.getElementById("hidden--button").style.visibility = "visible";
 }
 
-/* Game's move */
+// const emptyBoard = (board) => {
+//   return board.filter(b => b != "O" && b!= "X");
+// }
 
-// const addPlayerMove = e => {
-//   if (!board_full && board[e] == "" && player != "") {
-//     board[e] = player;
-//     game_loop(board);
-//     addComputerMove();
-//   }
-// };
-
-/*
-const minimaxMove = (board, depth, isMax) => {
-  let score = check_match()["score"];
-
-  if(score == 10) return score;
-  if(score == -10) return score;
-  if(board_full) return 0;
-
-  if(isMax){
-    let bestMove = -10000;
-    for(let i = 0; i<9;i++){
-      if(board[i]==""){
-        board[i] = computer;
-        bestMove = Math.max(bestMove, minimaxMove(board, depth+1, !isMax));
-
-        board[i] = "";
-      }
-    }
-    return bestMove;
-  }else{
-    let bestMove = 100000;
-    for(let i = 0; i<9;i++){
-      if(board[i]==""){
-        board[i] = player;
-        bestMove = Math.min(bestMove, minimaxMove(board, depth+1, !isMax));
-
-        board[i] = "";
-      }
-    }
-    return bestMove;
+const minimax = (board, depth, isMaximizing) => {
+  let result = check_match(board);
+  if (result.winner !== "") {
+    return result.score;
   }
-};
 
-const findComputerMove = (board) => {
-  let best = -100000;
-  let bestMove = -1;
-
-  for(let i = 0; i<9;i++){
-    if(board[i]==""){
-      board[i] = computer;
-      let move = minimaxMove(board, 0, false);
-      board[i] = "";
-      
-      if(move>best) {
-        bestMove = i;
-        best = move;
+  if (isMaximizing) {
+    let bestScore = -Infinity;
+    for (let i = 0; i < 9; i++) {
+      // Is the spot available?
+      if (board[i] == "") {
+        board[i] = aiPlayer;
+        let score = minimax(board, depth + 1, !isMaximizing);
+        board[i] = "";
+        bestScore = Math.max(score, bestScore);
       }
     }
+    return bestScore;
+  } else {
+    let bestScore = Infinity;
+    for (let i = 0; i < 9; i++) {
+      // Is the spot available?
+      if (board[i] == "") {
+        board[i] = humanPlayer;
+        let score = minimax(board, depth + 1, isMaximizing);
+        board[i] = "";
+        bestScore = Math.min(score, bestScore);
+      }
+    }
+    return bestScore;
   }
-  return bestMove;
-}
-*/
-
-const emptyBoard = (board) => {
-  return board.filter(b => b != "O" && b!= "X");
 }
 
-const minimax = (newBoard, currentPlayer) => {
-  let availSpots = emptyBoard(newBoard);
-  let score = check_match(newBoard)["score"];
-
-  if(score == 10) return {score: 10};
-  else if(score == -10) return {score: -10};
-  else if(board_full) return {score: 0};
-
-  let moves = [];
-  for(let i=0; i<availSpots.length;i++){
-    let move = {};
-      // move.index = i;
-    move.index = newBoard[availSpots[i]];
-    newBoard[availSpots[i]] = currentPlayer;
-
-    if(currentPlayer==computer){
-      let result = minimax(newBoard, player);
-      move.score = result.score;
-    }else{
-      let result = minimax(newBoard, computer);
-      move.score = result.score;
-    }
-    // newBoard[i] = "";
-    newBoard[availSpots[i]] = move.index;
-    moves.push(move);
-  }
-
-  let bestMove;
-  if(currentPlayer === computer){
-    let bestScore = -1000;
-    for(let i=0; i<moves.length; i++){
-      if(moves[i].score>bestScore){
-        bestScore = moves[i].score;
-        bestMove = i;
-      }
-    }
-  }else{
-    let bestScore = 1000;
-    for(let i=0; i<moves.length; i++){
-      if(moves[i].score<bestScore){
-        bestScore = moves[i].score;
-        bestMove = i;
+const bestMove = () => {
+  // AI to make its turn
+  let bestScore = -Infinity;
+  let move;
+  for (let i = 0; i < 9; i++) {
+      // Is the spot available?
+    if (gameBoard[i] == "") {
+      gameBoard[i] = aiPlayer;
+      let score = minimax(gameBoard, 0, false);
+      gameBoard[i] = "";
+      if (score > bestScore) {
+        bestScore = score;
+        move = i;
       }
     }
   }
-
-  return moves[bestMove];
+  gameBoard[move] = aiPlayer;
+  // currentPlayer = human;
 }
 
 const humanMove = (e) => {
@@ -288,24 +216,16 @@ const humanMove = (e) => {
 };
 
 const aiMove = () => {
-  if (!isFull) {
-    do {
-      selected = Math.floor(Math.random() * 9);
-    } while (gameBoard[selected] != "");
-    gameBoard[selected] = aiPlayer;
+  // if (!isFull) {
+  //   do {
+  //     selected = Math.floor(Math.random() * 9);
+  //   } while (gameBoard[selected] != "");
+  //   gameBoard[selected] = aiPlayer;
     // let idx = minimax(board, computer).index;
     // board[idx] = computer;
+    bestMove();
     game_loop(gameBoard);
-  }
 }
-
-// const choose_side = (side) => {
-//   if(side == "X"){
-    
-//   }else{
-    
-//   }
-// }
 
 
 chooseX.addEventListener("click", function(){
@@ -313,12 +233,13 @@ chooseX.addEventListener("click", function(){
   aiPlayer = "O";
   choose.style.visibility = "hidden";
 });
+
 chooseO.addEventListener("click", function(){
   humanPlayer = "O";
-    aiPlayer = "X";
-    choose.style.visibility = "hidden";
-    aiMove();
-  });
+  aiPlayer = "X";
+  choose.style.visibility = "hidden";
+  aiMove();
+});
     
 
 // render
