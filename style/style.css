@@ -7,8 +7,8 @@
 
 body {
   background-color: #010101;
-  font-family: 'Open Sans', sans-serif;
-  color: #FFF;
+  font-family: "Open Sans", sans-serif;
+  color: #fff;
 }
 
 .choose {
@@ -18,16 +18,16 @@ body {
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   background-color: #010101;
-  width: 400px;
-  height: 150px;
-  border: 3px solid #bebebe;
+  width: 20rem;
+  height: 9.4rem;
+  border: 0.3em solid #bebebe;
 }
 
 .choose--header {
   text-align: center;
-  padding-top: 10px;
-  height: 50px;
-  width: 400px;
+  padding-top: 0.5rem;
+  height: 3.3rem;
+  width: inherit;
 }
 
 .choose--content {
@@ -35,7 +35,7 @@ body {
   display: -ms-flexbox;
   display: flex;
   width: auto;
-  height: 100px;
+  height: auto;
 }
 
 .choose--x, .choose--o {
@@ -44,7 +44,7 @@ body {
   width: 50%;
   height: auto;
   font-weight: 1000;
-  font-size: 70px;
+  font-size: 4.5rem;
   text-align: center;
 }
 
@@ -77,8 +77,8 @@ body {
 }
 
 .game {
-  height: 420px;
-  width: 420px;
+  height: 27rem;
+  width: 27rem;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: auto auto auto;
@@ -96,18 +96,18 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  width: 140px;
-  height: 140px;
-  font-size: 3rem;
+  width: 9rem;
+  height: 9rem;
+  font-size: 4rem;
   font-weight: bold;
-  border: 3px solid #FFF;
+  border: 0.2rem solid #fff;
   -webkit-transition: background 0.2s ease-in-out;
   transition: background 0.2s ease-in-out;
 }
 
 .blok:hover {
   cursor: pointer;
-  background: #FFF;
+  background: #fff;
 }
 
 #blok0, #blok1, #blok2 {
@@ -127,24 +127,24 @@ body {
 }
 
 button {
-  width: 200px;
-  height: 40px;
-  font-size: 20px;
-  border: 2px solid #bebebe;
+  width: 10rem;
+  height: 2.5rem;
+  font-size: 1.5rem;
+  border: 0.1rem solid #bebebe;
   background-color: #010101;
-  color: #FFF;
+  color: #fff;
   -webkit-transition: background-color 0.2s ease-in-out;
   transition: background-color 0.2s ease-in-out;
 }
 
 button:hover {
   cursor: pointer;
-  background-color: #FFF;
+  background-color: #fff;
   color: #010101;
 }
 
 .occupied:hover {
-  background-color: #7D0633;
+  background-color: #7d0633;
 }
 
 .winner--container {
@@ -153,8 +153,8 @@ button:hover {
   display: grid;
   -ms-grid-columns: (1fr)[12];
       grid-template-columns: repeat(12, 1fr);
-  -ms-grid-rows: 20px auto 40px 20px;
-      grid-template-rows: 20px auto 40px 20px;
+  -ms-grid-rows: 1rem auto 2rem 1.5rem;
+      grid-template-rows: 1rem auto 2rem 1.5rem;
   padding: 0;
   position: fixed;
   top: 50%;
@@ -162,15 +162,15 @@ button:hover {
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   background-color: #010101;
-  width: 600px;
-  height: 200px;
-  border: 2px solid #bebebe;
-  font-size: 50px;
+  width: 35rem;
+  height: 12rem;
+  border: 0.1rem solid #bebebe;
+  font-size: 3rem;
 }
 
 .winner--button {
-  -ms-grid-column: 5;
-      grid-column-start: 5;
+  -ms-grid-column: 6;
+      grid-column-start: 6;
   grid-column-end: 8;
   -ms-grid-row: 3;
       grid-row-start: 3;
@@ -178,12 +178,12 @@ button:hover {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 200px;
+  width: auto;
+  justify-self: center;
 }
 
 #hidden--button {
-  visibility: hidden;
-  margin-top: 40px;
+  margin-top: 2rem;
 }
 
 h2 {
@@ -204,21 +204,19 @@ p {
   -ms-grid-row: 1;
       grid-row-start: 1;
   grid-row-end: 2;
-  font-size: 25px;
+  font-size: 1.56rem;
   text-align: center;
   -ms-grid-column-align: end;
       justify-self: end;
-  width: 30px;
-  height: 30px;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 p:hover {
   cursor: pointer;
-  background-color: #FFF;
+  background-color: #fff;
   color: #010101;
 }
-<<<<<<< Updated upstream
-=======
 
 @media screen and (max-width: 414px) {
   .choose {
@@ -267,5 +265,4 @@ p:hover {
     font-size: 1.5rem;
   }
 }
->>>>>>> Stashed changes
 /*# sourceMappingURL=style.css.map */
