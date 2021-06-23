@@ -37,50 +37,52 @@ const check_line = (board, a, b, c) => {
 const check_match = (board) => {
   for (i = 0; i < 9; i += 3) {
     if (check_line(board, i, i + 1, i + 2)) {
-      let match = {};
-      match.winner = board[i];
-      if(match.winner == humanPlayer) match.score = -10;
-      else if (match.winner == aiPlayer) match.score = 10;
-      return match;
+      // let match = {};
+      // match.winner = board[i];
+      // if(match.winner == humanPlayer) match.score = -10;
+      // else if (match.winner == aiPlayer) match.score = 10;
+      // return match;
+      return board[i];
     }
   }
   for (i = 0; i < 3; i++) {
     if (check_line(board, i, i + 3, i + 6)) {
-      let match = {};
-      match.winner = board[i];
-      if(match.winner == humanPlayer) match.score = -10;
-      else if (match.winner == aiPlayer) match.score = 10;
-      return match;
+      // let match = {};
+      // match.winner = board[i];
+      // if(match.winner == humanPlayer) match.score = -10;
+      // else if (match.winner == aiPlayer) match.score = 10;
+      // return match;
+      return board[i];
     }
   }
   if (check_line(board, 0, 4, 8)) {
-    let match = {};
-      match.winner = board[0];
-      if(match.winner == humanPlayer) match.score = -10;
-      else if (match.winner == aiPlayer) match.score = 10;
-      return match;
+    // let match = {};
+    //   match.winner = board[0];
+    //   if(match.winner == humanPlayer) match.score = -10;
+    //   else if (match.winner == aiPlayer) match.score = 10;
+    //   return match;
+    return board[0];
   }
   if (check_line(board, 2, 4, 6)) {
-    let match = {};
-    match.winner = board[2];
-    if(match.winner == humanPlayer) match.score = -10;
-    else if (match.winner == aiPlayer) match.score = 10;
-    return match;
+    // let match = {};
+    // match.winner = board[2];
+    // if(match.winner == humanPlayer) match.score = -10;
+    // else if (match.winner == aiPlayer) match.score = 10;
+    // return match;
+    return board[2];
   }
-  if(check_board_complete(board)){
-    return {
-      winner:"",
-      score: 0
-    }
-  }
-  return {
-    winner: "",
-    score: ""
-  };
+  // if(check_board_complete(board)){
+  //   // return {
+  //   //   winner:"",
+  //   //   score: 0
+  //   // }
+  //   return 0;
+  // }
+  return "";
 };
 
 const check_for_winner = (board) => {
-  let res = check_match(board)["winner"];
+  let res = check_match(board);
   if (res == humanPlayer) {
     winner.innerText = "You Win!";
     isFull = true
@@ -155,9 +157,12 @@ const x_button = () => {
 // }
 
 const minimax = (board, depth, isMaximizing) => {
-  let result = check_match(board);
-  if (result.winner !== "") {
-    return result.score;
+  let winner = check_match(board);
+  if (winner !== "") {
+    // return result.score;
+    if(winner == aiPlayer) return 10-depth;
+    else if (winner == humanPlayer) return depth-10;
+    return 0;
   }
 
   if (isMaximizing) {
