@@ -71,14 +71,18 @@ const checkFinalState = (board) => {
     winner.innerText = "You Win!";
     isFull = true
     winner_statement.style.visibility = "visible";
+    return true;
   } else if (res == aiPlayer) {
     winner.innerText = "Computer Win!";
     isFull = true
     winner_statement.style.visibility = "visible";
+    return true;
   } else if (isBoardFull(board)) {
     winner.innerText = "Draw!";
     winner_statement.style.visibility = "visible";
+    return true;
   }
+  return false;
 };
 
 
@@ -104,7 +108,7 @@ const x_button = () => {
 const game_loop = (board) => {
   render_board(board);
   isBoardFull(board);
-  checkFinalState(board);
+  return checkFinalState(board);
 }
 
 const minimax = (board, depth, isMax) => {
@@ -144,8 +148,7 @@ const minimax = (board, depth, isMax) => {
 const humanMove = (e) => {
   if (!isFull && gameBoard[e] == "" && humanPlayer != "") {
     gameBoard[e] = humanPlayer;
-    game_loop(gameBoard);
-    aiMove();
+    if(!game_loop(gameBoard)) aiMove();
   }
 };
 
