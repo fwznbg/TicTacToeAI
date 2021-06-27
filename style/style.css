@@ -20,7 +20,7 @@ body {
   background-color: #010101;
   width: 20rem;
   height: 9.4rem;
-  border: 0.3em solid #bebebe;
+  border: 0.2rem solid #bebebe;
 }
 
 .choose--header {
@@ -34,18 +34,19 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: auto;
-  height: auto;
+  width: inherit;
+  height: 6.1rem;
 }
 
 .choose--x, .choose--o {
   margin: 0;
   padding: 0;
-  width: 50%;
-  height: auto;
-  font-weight: 1000;
-  font-size: 4.5rem;
+  width: 9.8rem;
+  height: 5.9rem;
+  font-weight: 900;
+  font-size: 4rem;
   text-align: center;
+  border-bottom: 0.2rem solid #bebebe;
 }
 
 .choose--x {
@@ -221,9 +222,9 @@ p:hover {
 
 @media screen and (max-width: 414px) {
   .choose {
-    width: 14em;
-    height: 5rem;
-    border: 0.1em solid #bebebe;
+    width: 14rem;
+    height: 7.9rem;
+    border: 0.1rem solid #bebebe;
   }
   .choose--header {
     font-size: 1.3rem;
@@ -239,6 +240,7 @@ p:hover {
   }
   .choose--x, .choose--o {
     font-size: 2.3rem;
+    border-bottom: 0.1rem solid #bebebe;
   }
   .game {
     height: 15rem;
